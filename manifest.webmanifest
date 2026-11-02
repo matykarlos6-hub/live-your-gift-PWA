@@ -1,0 +1,23 @@
+{
+  "name": "Live Your Gift",
+  "short_name": "Live Your Gift",
+  "description": "Vrať se do přítomnosti. Každou hodinu věta přímo do telefonu.",
+  "lang": "cs",
+  "id": "./",
+  "start_url": "./?source=pwa",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#07050d",
+  "theme_color": "#07050d",
+  "categories": ["health", "lifestyle", "productivity"],
+  "icons": [
+    {"src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+    {"src": "icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ],
+  "shortcuts": [
+    {"name": "Uklidnit se", "url": "./?go=calm", "icons": [{"src": "icons/icon-192.png", "sizes": "192x192"}]},
+    {"name": "Povzbudit se", "url": "./?go=energy", "icons": [{"src": "icons/icon-192.png", "sizes": "192x192"}]}
+  ]
+}

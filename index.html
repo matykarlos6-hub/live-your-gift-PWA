@@ -2,317 +2,943 @@
 <html lang="cs">
 <head>
 <meta charset="utf-8">
-<title>Žij svůj dar</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#050807">
+<title>Live Your Gift</title>
+<meta name="description" content="Vrať se do přítomnosti. Každou hodinu věta přímo do telefonu.">
+<meta name="theme-color" content="#07050d">
+<meta name="color-scheme" content="dark">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Live Your Gift">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <style>
-:root{--bg:#050807;--ink:#f4fffa;--mute:rgba(230,245,238,.55);--mint:#a6f2cf;--mint2:#6fdcb0;--card:rgba(28,34,33,.72);--line:rgba(255,255,255,.08);--hi:rgba(255,255,255,.14);color-scheme:dark}
-@media (prefers-color-scheme:light){:root:not([data-theme="light"]){color-scheme:dark}}
-:root[data-theme="dark"]{color-scheme:dark}
+/* Layout idea: one amber world. A deep bloom behind the orb, a grid lit by it, glass on top. Single hue family, no other colours. */
+:root{
+  --ink:#fff6ea;
+  --ink2:rgba(255,242,224,.74);
+  --ink3:rgba(255,236,210,.48);
+  --bg:#07050d;
+  --gold:#ffc46b;
+  --amber:#ff9a45;
+  --ember:#ff6a3d;
+  --line:rgba(255,190,110,.10);
+  --font:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  color-scheme:dark;
+}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;margin:0}
-body{background:radial-gradient(90% 55% at 50% 18%,#17302a 0%,#0a1412 45%,var(--bg) 75%) var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Helvetica Neue',system-ui,sans-serif;overflow:hidden}
-.stars{position:fixed;inset:0;pointer-events:none;opacity:.55;background-image:radial-gradient(1px 1px at 12% 8%,#fff,transparent),radial-gradient(1px 1px at 28% 22%,#fff,transparent),radial-gradient(1px 1px at 71% 12%,#fff,transparent),radial-gradient(1.5px 1.5px at 86% 30%,#fff,transparent),radial-gradient(1px 1px at 52% 5%,#fff,transparent),radial-gradient(1px 1px at 40% 34%,#fff,transparent),radial-gradient(1px 1px at 92% 6%,#fff,transparent),radial-gradient(1px 1px at 6% 28%,#fff,transparent),radial-gradient(1px 1px at 63% 26%,#fff,transparent);animation:tw 6s ease-in-out infinite alternate}
-@keyframes tw{to{opacity:.25}}
-#app{position:relative;height:100%;max-width:500px;margin:0 auto;display:flex;flex-direction:column}
-main{flex:1;overflow-y:auto;padding:calc(env(safe-area-inset-top,0px) + 18px) 16px 200px;scrollbar-width:none}
-main::-webkit-scrollbar{display:none}
-.screen{display:none;flex-direction:column;gap:16px;animation:in .45s ease}
-.screen.on{display:flex}
-@keyframes in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-.head{display:flex;justify-content:space-between;align-items:center;padding:0 6px}
-.logo{font-size:2rem;font-weight:700;letter-spacing:-.04em;display:flex;align-items:center;gap:8px}
-.logo i{width:26px;height:26px;border:3.5px solid var(--ink);border-radius:52% 48% 44% 56%/56% 46% 54% 44%;display:inline-block}
-.date{font-size:.8rem;color:var(--mute);text-transform:uppercase;letter-spacing:.1em;font-weight:600}
-/* drahokam */
-.stage{position:relative;height:330px;display:flex;align-items:flex-end;justify-content:center}
-.glow{position:absolute;width:280px;height:280px;top:10px;left:50%;transform:translateX(-50%);border-radius:50%;background:radial-gradient(circle,rgba(130,240,200,.35),rgba(60,120,255,.12) 45%,transparent 70%);filter:blur(10px);animation:pulse 5s ease-in-out infinite}
-@keyframes pulse{50%{opacity:.6;transform:translateX(-50%) scale(1.08)}}
-.gem{position:absolute;bottom:48px;left:50%;width:190px;height:230px;transform:translateX(-50%);border-radius:48% 52% 44% 56%/58% 50% 50% 42%;overflow:hidden;
- background:radial-gradient(circle at 30% 25%,rgba(255,255,255,.95),transparent 18%),radial-gradient(circle at 70% 70%,rgba(255,210,90,.85),transparent 30%),radial-gradient(circle at 25% 70%,rgba(60,140,255,.9),transparent 35%),radial-gradient(circle at 65% 35%,rgba(90,255,170,.9),transparent 35%),linear-gradient(160deg,#c9fff0,#7ad7ff 40%,#6effa8 70%,#ffd36b);
- box-shadow:inset -18px -24px 40px rgba(0,40,60,.45),inset 14px 16px 30px rgba(255,255,255,.55),0 0 60px rgba(140,255,210,.35);animation:bob 6s ease-in-out infinite}
-.gem::before{content:"";position:absolute;inset:-30%;background:conic-gradient(from 0deg,transparent,rgba(255,80,200,.35),transparent 25%,rgba(80,255,180,.45),transparent 50%,rgba(80,160,255,.5),transparent 75%,rgba(255,230,120,.4),transparent);mix-blend-mode:overlay;animation:rot 9s linear infinite}
-.gem::after{content:"";position:absolute;top:10%;left:18%;width:30%;height:22%;border-radius:50%;background:rgba(255,255,255,.7);filter:blur(8px)}
-@keyframes rot{to{transform:rotate(360deg)}}
-@keyframes bob{50%{transform:translateX(-50%) translateY(-8px)}}
-.ped{position:relative;width:150px;height:30px;border-radius:50%;background:linear-gradient(#222,#050505);box-shadow:0 18px 30px rgba(0,0,0,.8),inset 0 2px 0 rgba(255,255,255,.12);margin-bottom:10px}
-.ped::before{content:"";position:absolute;left:0;right:0;top:12px;height:24px;background:#0b0b0b;border-radius:0 0 50% 50%/0 0 100% 100%;z-index:-1}
-.score{text-align:center}
-.score small{display:block;color:var(--mint);font-weight:600;font-size:.95rem;margin-bottom:2px}
-.score b{font-size:3.6rem;font-weight:600;letter-spacing:-.04em;color:var(--mint);text-shadow:0 0 30px rgba(166,242,207,.35)}
-.trio{display:flex;justify-content:space-around;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:18px 0;margin:0 4px}
-.trio div{text-align:center}
-.trio span{display:block;font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);font-weight:600;margin-bottom:4px}
-.trio b{font-size:1.5rem;font-weight:500}
-.card{background:var(--card);border-radius:28px;padding:22px;border:1px solid var(--line);box-shadow:inset 0 1px 0 var(--hi);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px)}
-.sec h3{font-size:1.35rem;margin:6px 4px 2px;font-weight:700}
-.sec p{margin:0 4px;color:var(--mute)}
-.quote{font-size:1.35rem;font-weight:700;line-height:1.3;text-align:center;letter-spacing:-.01em}
-.lbl{font-size:.85rem;color:var(--mute);font-weight:600;margin-bottom:8px}
-h1{font-size:2.3rem;font-weight:700;letter-spacing:-.035em;margin:0;line-height:1.05}
-h2{font-size:1.5rem;font-weight:700;margin:0 0 6px}
-p{color:var(--mute);line-height:1.5;margin:0}
-.white{border:0;background:#fff;color:#000;font:600 1.05rem inherit;font-family:inherit;border-radius:999px;padding:16px 26px;cursor:pointer;transition:transform .15s}
-.white:active,.ghost:active,.row:active{transform:scale(.96)}
-.ghost{border:1px solid var(--hi);background:rgba(255,255,255,.06);color:var(--ink);font:600 .95rem inherit;font-family:inherit;border-radius:999px;padding:13px 20px;cursor:pointer}
-.mint{background:var(--mint);color:#04140d}
-input[type=text]{width:100%;margin-top:14px;border:1px solid var(--line);background:rgba(0,0,0,.35);color:var(--ink);font:500 1.1rem inherit;font-family:inherit;padding:16px;border-radius:16px;outline:0}
-input[type=text]:focus{border-color:var(--mint)}
-.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-.chips button.sel{background:var(--mint);color:#04140d;border-color:var(--mint)}
-.row{display:flex;align-items:center;gap:16px;width:100%;text-align:left;cursor:pointer;color:var(--ink);font-family:inherit;transition:transform .15s}
-.row .ic{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;font-size:1.5rem;background:rgba(166,242,207,.1);border:1px solid rgba(166,242,207,.25)}
-.row b{font-size:1.1rem;display:block}
-.row small{color:var(--mute)}
-.row .ch{margin-left:auto;color:var(--mute);font-size:1.4rem}
-.ring{position:relative;width:240px;height:240px;margin:10px auto}
-.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
-.ring .mid{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
-.ring .mid b{font-size:3rem;font-weight:500;color:var(--mint);letter-spacing:-.04em}
-.trk{fill:none;stroke:rgba(255,255,255,.07);stroke-width:12}
-.prg{fill:none;stroke:var(--mint);stroke-width:12;stroke-linecap:round;transition:stroke-dashoffset .8s;filter:drop-shadow(0 0 8px rgba(166,242,207,.5))}
-.bars{display:flex;gap:6px;align-items:flex-end;height:120px;margin-top:14px}
-.bars i{flex:1;border-radius:6px;background:linear-gradient(to top,rgba(111,220,176,.25),var(--mint))}
-.bars i.off{background:rgba(255,255,255,.06)}
-.axis{display:flex;justify-content:space-between;font-size:.7rem;color:var(--mute);margin-top:6px}
-.pbar{height:6px;border-radius:6px;background:rgba(255,255,255,.08);overflow:hidden;margin:6px 0 16px}
-.pbar i{display:block;height:100%;width:0;background:var(--mint);border-radius:6px}
-.pl{display:flex;justify-content:space-between;font-weight:600;font-size:.92rem}
-.set{display:flex;justify-content:space-between;align-items:center;padding:14px 0;gap:14px;border-bottom:1px solid var(--line)}
-.set:last-child{border:0}
-.set label{font-weight:600}
-select,input[type=time]{background:rgba(255,255,255,.07);color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:10px 12px;font:500 .92rem inherit;font-family:inherit;max-width:60%}
-.sw{width:52px;height:32px;border-radius:32px;background:rgba(255,255,255,.15);position:relative;cursor:pointer;flex:none;transition:.25s}
-.sw::after{content:"";position:absolute;top:2px;left:2px;width:28px;height:28px;border-radius:50%;background:#fff;transition:.25s cubic-bezier(.3,1.4,.5,1)}
-.sw[aria-checked=true]{background:var(--mint2)}
-.sw[aria-checked=true]::after{left:22px}
-.orbP{width:150px;height:180px;margin:0 auto 18px;position:relative}
-.orbP .gem{bottom:0;width:150px;height:180px}
-.orbP.play .gem{animation:bob 2s ease-in-out infinite}
-.abar{height:5px;border-radius:5px;background:rgba(255,255,255,.1);margin:18px 0 8px;cursor:pointer;overflow:hidden}
-.abar i{display:block;height:100%;width:0;background:var(--mint)}
-.time{display:flex;justify-content:space-between;font-size:.8rem;color:var(--mute)}
-.pp{width:74px;height:74px;border-radius:50%;border:0;margin:16px auto 0;display:block;font-size:1.5rem;background:#fff;color:#000;cursor:pointer}
-/* spodní dock */
-.dock{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 12px);width:min(468px,calc(100% - 32px));z-index:5;display:flex;flex-direction:column;gap:10px}
-.sess{display:flex;align-items:center;gap:12px;padding:14px 14px 14px 18px;border-radius:24px;background:linear-gradient(180deg,rgba(60,70,72,.85),rgba(28,32,33,.92));border:1px solid var(--hi);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);position:relative;overflow:hidden}
-.sess .t b{display:block;font-size:1.05rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:52vw}
-.sess .t span{font-size:.85rem;color:var(--mute)}
-.sess .white{margin-left:auto;padding:13px 22px;white-space:nowrap}
-.sess .line{position:absolute;left:0;bottom:0;height:3px;width:0;background:var(--mint);transition:width 1s linear}
-nav{display:flex;gap:4px;padding:6px;border-radius:999px;background:rgba(30,34,35,.85);border:1px solid var(--hi);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);align-self:center;width:100%}
-nav button{flex:1;border:0;background:none;color:rgba(255,255,255,.65);font:600 .7rem inherit;font-family:inherit;padding:8px 0;border-radius:999px;cursor:pointer;transition:.25s}
-nav button b{display:block;font-size:1.3rem;font-weight:400;margin-bottom:1px}
-nav button.on{background:rgba(255,255,255,.13);color:#fff}
-#toast{position:fixed;left:50%;top:calc(env(safe-area-inset-top,0px) + 10px);transform:translate(-50%,-170%);width:min(440px,calc(100% - 32px));z-index:9;display:flex;gap:12px;align-items:center;padding:14px 16px;border-radius:22px;background:rgba(40,46,47,.9);border:1px solid var(--hi);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);transition:transform .5s cubic-bezier(.2,1.3,.4,1)}
-#toast.on{transform:translate(-50%,0)}
-#toast .ap{width:38px;height:38px;border-radius:10px;flex:none;background:linear-gradient(135deg,#c9fff0,#6effa8 60%,#7ad7ff);box-shadow:inset 0 0 8px rgba(255,255,255,.6)}
-#toast b{display:block;font-size:.95rem}
-#toast span{font-size:.85rem;color:var(--mute)}
-.center{text-align:center}
-.hide{display:none!important}
-button:focus-visible,select:focus-visible,input:focus-visible,.sw:focus-visible{outline:2px solid var(--mint);outline-offset:3px}
-@media (prefers-reduced-motion:reduce){*{animation:none!important}}
-</style>
+body{background:var(--bg);color:var(--ink);font-family:var(--font);overflow:hidden;-webkit-font-smoothing:antialiased;overscroll-behavior:none}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+[hidden]{display:none!important}
 
+/* world: bloom + grid + grain + vignette */
+.world{position:fixed;inset:0;z-index:0;overflow:hidden;background:var(--bg)}
+.bloom{position:absolute;left:50%;top:30%;width:170vmax;height:170vmax;transform:translate(-50%,-50%);border-radius:50%;
+  background:radial-gradient(closest-side,rgba(255,140,50,.62) 0%,rgba(255,106,61,.38) 16%,rgba(214,70,48,.20) 36%,rgba(120,34,44,.10) 58%,rgba(60,16,40,.04) 78%,transparent 100%);
+  animation:bloom 9s ease-in-out infinite alternate}
+@keyframes bloom{from{opacity:.82;transform:translate(-50%,-50%) scale(.96)}to{opacity:1;transform:translate(-50%,-50%) scale(1.04)}}
+.grid{position:absolute;inset:0;background-size:46px 46px;background-position:center top}
+.grid.a{background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  -webkit-mask-image:radial-gradient(60% 55% at 50% 30%,#000 10%,transparent 100%);mask-image:radial-gradient(60% 55% at 50% 30%,#000 10%,transparent 100%)}
+.grid.b{background-image:linear-gradient(rgba(255,196,120,.24) 1px,transparent 1px),linear-gradient(90deg,rgba(255,196,120,.24) 1px,transparent 1px);
+  -webkit-mask-image:radial-gradient(34% 30% at 50% 30%,#000 0%,transparent 100%);mask-image:radial-gradient(34% 30% at 50% 30%,#000 0%,transparent 100%)}
+.grain{position:absolute;inset:0;opacity:.09;mix-blend-mode:overlay;pointer-events:none;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+.vig{position:absolute;inset:0;background:radial-gradient(120% 90% at 50% 36%,transparent 38%,rgba(4,2,8,.82) 100%)}
+
+/* liquid glass */
+.glass{position:relative;background:linear-gradient(135deg,rgba(255,240,220,.15),rgba(255,240,220,.04));
+  -webkit-backdrop-filter:blur(28px) saturate(170%);backdrop-filter:blur(28px) saturate(170%);
+  border:1px solid rgba(255,226,190,.20);border-radius:28px;
+  box-shadow:inset 0 1px 0 rgba(255,240,215,.48),inset 0 -1px 0 rgba(255,226,190,.06),0 14px 44px rgba(0,0,0,.34)}
+.glass::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(110% 55% at 18% 0%,rgba(255,236,205,.28),transparent 55%);opacity:.7}
+.glass>*{position:relative}
+
+/* shell */
+.app{position:fixed;inset:0;z-index:1;display:flex;flex-direction:column}
+.panel{display:none;flex:1;overflow-y:auto;overflow-x:hidden;padding:calc(env(safe-area-inset-top) + 22px) 18px calc(env(safe-area-inset-bottom) + 118px);scrollbar-width:none}
+.panel::-webkit-scrollbar{display:none}
+.panel.on{display:block;animation:fade .5s ease both}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.wrap{max-width:460px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+h1,h2,h3,p{margin:0}
+.eyebrow{font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3)}
+.title{font-size:30px;font-weight:700;letter-spacing:-.02em;text-wrap:balance;line-height:1.1}
+.lead{color:var(--ink2);line-height:1.5;font-size:16px}
+
+/* NOW */
+.clock{text-align:center;display:flex;flex-direction:column;gap:2px}
+.clock .t{font-size:17px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--ink2)}
+.orbwrap{display:grid;place-items:center;padding:14px 0 4px}
+.orb{--s:min(58vw,260px);width:var(--s);height:var(--s);border-radius:50%;position:relative;display:grid;place-items:center;
+  background:radial-gradient(circle at 34% 28%,#fff4d6 0%,#ffd48a 22%,#ffb057 52%,#ff7a4b 100%);
+  box-shadow:0 0 0 1px rgba(255,255,255,.4) inset,0 0 80px 18px rgba(255,150,60,.55),0 0 200px 70px rgba(255,100,50,.30),inset 0 -22px 50px rgba(255,90,50,.35),inset 0 18px 40px rgba(255,255,255,.55);
+  animation:breathe 6s ease-in-out infinite;transition:transform .2s}
+.orb:active{transform:scale(.97)}
+.orb::after{content:"";position:absolute;width:46%;height:26%;left:15%;top:9%;border-radius:50%;background:linear-gradient(180deg,rgba(255,255,255,.85),rgba(255,255,255,0));filter:blur(3px)}
+.orb span{font-size:calc(var(--s) * .26);font-weight:300;letter-spacing:-.03em;color:#5a2410;text-shadow:0 1px 0 rgba(255,255,255,.4)}
+.orb.ping{animation:ping 1.6s ease-out}
+@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
+@keyframes ping{0%{transform:scale(1);filter:brightness(1)}30%{transform:scale(1.14);filter:brightness(1.25)}100%{transform:scale(1);filter:brightness(1)}}
+.mantra{text-align:center;font-size:clamp(28px,8.4vw,38px);font-weight:700;letter-spacing:-.03em;line-height:1.1;text-wrap:balance;text-shadow:0 0 44px rgba(255,150,60,.5);min-height:2.2em;display:grid;place-items:center}
+.sub{text-align:center;color:var(--ink2);font-size:15px}
+.card{padding:20px}
+.card .k{font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);margin-bottom:10px}
+.card .v{font-size:19px;line-height:1.4;font-weight:600;text-wrap:balance;margin-bottom:14px}
+.quote{font-size:21px;line-height:1.38;font-weight:600;letter-spacing:-.01em;text-wrap:balance}
+.by{margin-top:10px;font-size:14px;color:var(--ink2)}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.btn{padding:15px 22px;border-radius:999px;font-weight:600;font-size:16px;min-height:50px;flex:1;text-align:center;
+  background:linear-gradient(135deg,rgba(255,240,220,.20),rgba(255,240,220,.06));border:1px solid rgba(255,226,190,.26);
+  box-shadow:inset 0 1px 0 rgba(255,240,215,.5),0 8px 24px rgba(0,0,0,.24);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);transition:transform .15s}
+.btn:active{transform:scale(.97)}
+.btn.gold{background:linear-gradient(135deg,#ffd48a,#ff9d5c);color:#4a1d0a;border-color:rgba(255,255,255,.6);box-shadow:inset 0 1px 0 rgba(255,255,255,.8),0 10px 34px rgba(255,140,60,.5)}
+.btn.small{padding:10px 16px;min-height:42px;font-size:14px;flex:0 0 auto}
+.card.noti{background:linear-gradient(135deg,rgba(255,200,130,.20),rgba(255,140,70,.07))}
+
+/* TIMER */
+.chips{display:flex;gap:8px;overflow-x:auto;padding:2px 18px 8px;scrollbar-width:none;margin:0 -18px}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;padding:10px 16px;border-radius:999px;font-weight:600;font-size:15px;background:rgba(255,240,220,.07);border:1px solid rgba(255,226,190,.16);color:var(--ink2);transition:.2s}
+.chip[aria-pressed="true"]{background:linear-gradient(135deg,#ffd48a,#ff9d5c);color:#4a1d0a;border-color:rgba(255,255,255,.6);box-shadow:0 6px 22px rgba(255,140,60,.45)}
+.ringbox{display:grid;place-items:center;padding:6px 0}
+.ring{position:relative;width:min(70vw,280px);aspect-ratio:1}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg);overflow:visible}
+.ring .track{stroke:rgba(255,226,190,.14)}
+.ring .prog{stroke:url(#rg);filter:drop-shadow(0 0 12px rgba(255,150,60,.9));transition:stroke-dashoffset .25s linear}
+.ring .center{position:absolute;inset:0;display:grid;place-content:center;text-align:center;gap:4px}
+.ring .time{font-size:clamp(50px,15vw,64px);font-weight:300;letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.ring .lab{font-size:14px;color:var(--ink2);font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+.hint{text-align:center;color:var(--ink2);line-height:1.45;text-wrap:balance;min-height:44px}
+.stepper{display:flex;align-items:center;justify-content:center;gap:14px}
+.stepper button{width:44px;height:44px;border-radius:50%;font-size:22px;background:rgba(255,240,220,.09);border:1px solid rgba(255,226,190,.2)}
+.stepper span{min-width:96px;text-align:center;color:var(--ink2);font-size:14px}
+.back{padding:22px;text-align:center;display:none;flex-direction:column;gap:14px;align-items:center}
+.back.on{display:flex;animation:fade .6s ease both}
+.back .big{font-size:34px;font-weight:700;letter-spacing:-.03em;text-shadow:0 0 36px rgba(255,150,60,.6)}
+
+/* recordings */
+.sess{display:flex;align-items:center;gap:16px;padding:18px 20px;width:100%;text-align:left}
+.sess .ic{flex:none;width:58px;height:58px;border-radius:18px;display:grid;place-items:center;font-size:30px;
+  background:linear-gradient(135deg,rgba(255,226,190,.26),rgba(255,226,190,.07));border:1px solid rgba(255,226,190,.3);box-shadow:inset 0 1px 0 rgba(255,240,215,.6),0 0 26px rgba(255,140,60,.55)}
+.sess .tx{flex:1;min-width:0}
+.sess b{display:block;font-size:19px;letter-spacing:-.01em}
+.sess small{display:block;color:var(--ink2);font-size:14px;margin-top:2px}
+.sess .go{font-size:30px;color:var(--ink3);line-height:1}
+.sess:active{transform:scale(.985)}
+
+.overlay{position:fixed;inset:0;z-index:30;display:none;flex-direction:column;align-items:center;justify-content:center;gap:22px;padding:calc(env(safe-area-inset-top) + 24px) 26px calc(env(safe-area-inset-bottom) + 28px);
+  background:rgba(7,5,13,.74);-webkit-backdrop-filter:blur(34px) saturate(150%);backdrop-filter:blur(34px) saturate(150%);text-align:center}
+.overlay.on{display:flex;animation:fade .5s ease both}
+.overlay .eyebrow{color:var(--ink2)}
+.sorb{width:min(52vw,210px);aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(circle at 34% 28%,#fff4d6 0%,#ffd48a 22%,#ffb057 52%,#ff7a4b 100%);
+  box-shadow:0 0 80px 18px rgba(255,150,60,.55),0 0 200px 70px rgba(255,100,50,.30),inset 0 -18px 40px rgba(255,90,50,.35),inset 0 14px 34px rgba(255,255,255,.55)}
+.overlay.calm .sorb{animation:slow 10s ease-in-out infinite}
+.overlay.energy .sorb{animation:pulse .6s ease-in-out infinite}
+@keyframes slow{0%,100%{transform:scale(.82)}50%{transform:scale(1.12)}}
+@keyframes pulse{0%,100%{transform:scale(.94)}50%{transform:scale(1.06)}}
+.sline{font-size:clamp(24px,7vw,32px);font-weight:600;line-height:1.28;letter-spacing:-.02em;text-wrap:balance;max-width:420px;min-height:3.9em;display:grid;place-items:center}
+.sbar{width:min(70vw,280px);height:6px;border-radius:99px;background:rgba(255,226,190,.16);overflow:hidden}
+.sbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#ffe3a8,#ff7a4b);border-radius:99px;transition:width .6s}
+
+/* NOTIFICATIONS */
+.status{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.dot{flex:none;width:12px;height:12px;border-radius:50%;background:rgba(255,226,190,.3)}
+.dot.on{background:var(--gold);box-shadow:0 0 14px 3px rgba(255,170,70,.9)}
+.hours{display:flex;flex-direction:column;gap:2px;padding:8px}
+.hr{display:grid;grid-template-columns:54px 1fr 54px;align-items:center;gap:10px;padding:8px;border-radius:18px}
+.hr.now{background:rgba(255,226,190,.10)}
+.hr time{font-variant-numeric:tabular-nums;font-weight:600;color:var(--ink2)}
+.hr input[type=text]{width:100%;background:rgba(255,240,220,.06);border:1px solid rgba(255,226,190,.14);border-radius:14px;padding:11px 12px;font-size:15px;outline-offset:2px;min-width:0}
+.hr input[type=text]::placeholder{color:var(--ink3)}
+.hr.off input[type=text]{opacity:.4}
+.sw{position:relative;width:50px;height:30px;border-radius:999px;background:rgba(255,226,190,.18);border:1px solid rgba(255,226,190,.2);transition:.25s;justify-self:end;flex:none}
+.sw::after{content:"";position:absolute;top:2px;left:2px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.35);transition:.25s}
+.sw[aria-checked="true"]{background:linear-gradient(135deg,#ffd48a,#ff9d5c);box-shadow:0 0 18px rgba(255,140,60,.6)}
+.sw[aria-checked="true"]::after{transform:translateX(20px)}
+.note{font-size:13px;line-height:1.5;color:var(--ink3)}
+.linkbtn{color:var(--ink2);text-decoration:underline;text-underline-offset:3px;font-size:14px;padding:8px}
+
+/* MEMENTO */
+.mm-title{font-size:clamp(34px,10.5vw,46px);font-weight:800;letter-spacing:-.035em;line-height:1.04;text-wrap:balance;text-shadow:0 0 48px rgba(255,120,50,.5)}
+.mm-live{font-size:17px;color:var(--ink2);line-height:1.45}
+.mm-live b{color:#fff;font-variant-numeric:tabular-nums}
+.big-n{font-size:clamp(46px,14vw,60px);font-weight:300;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
+.nums{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.nums .glass{padding:16px 18px}
+.nums .big-n{font-size:clamp(34px,10vw,44px)}
+.nums small{display:block;color:var(--ink2);font-size:14px;margin-top:6px}
+.dots{display:grid;grid-template-columns:repeat(16,1fr);gap:6px;margin-top:14px}
+.dots i{aspect-ratio:1;border-radius:50%;background:rgba(255,226,190,.14);display:block}
+.dots i.past{background:rgba(255,226,190,.07)}
+.dots i.cur{background:var(--gold);box-shadow:0 0 14px 2px rgba(255,170,70,.9);animation:breathe 3s ease-in-out infinite}
+.dots i.fut{background:rgba(255,236,210,.55)}
+canvas{width:100%;display:block;border-radius:14px}
+.year{display:flex;gap:10px;align-items:center;margin-top:12px}
+.year input{width:130px;background:rgba(255,240,220,.07);border:1px solid rgba(255,226,190,.18);border-radius:999px;padding:12px 16px;font-size:16px}
+
+/* tab bar */
+.tabs{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom) + 14px);z-index:5;display:flex;gap:2px;padding:7px;border-radius:999px;width:min(calc(100vw - 28px),440px)}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 2px;border-radius:999px;color:var(--ink3);font-size:11px;font-weight:600;transition:.25s}
+.tab svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.tab[aria-selected="true"]{color:#fff;background:linear-gradient(135deg,rgba(255,226,190,.28),rgba(255,226,190,.08));box-shadow:inset 0 1px 0 rgba(255,240,215,.55),0 0 24px rgba(255,150,60,.4)}
+
+.toast{position:fixed;left:50%;top:calc(env(safe-area-inset-top) + 14px);transform:translate(-50%,-160%);z-index:60;padding:14px 22px;border-radius:999px;font-weight:700;font-size:17px;text-align:center;line-height:1.3;border-radius:24px;width:max-content;max-width:calc(100vw - 28px);transition:transform .6s cubic-bezier(.2,1.2,.3,1)}
+.toast.on{transform:translate(-50%,0)}
+
+/* sheets: install + permission */
+.sheet{position:fixed;left:50%;transform:translate(-50%,130%);bottom:calc(env(safe-area-inset-bottom) + 12px);z-index:50;width:min(calc(100vw - 24px),440px);padding:22px 20px 14px;transition:transform .7s cubic-bezier(.2,1,.3,1);
+  background:linear-gradient(135deg,rgba(255,240,220,.18),rgba(255,240,220,.05)),rgba(14,8,14,.82);max-height:calc(100% - 40px);overflow-y:auto}
+.sheet.on{transform:translate(-50%,0)}
+.sheet h3{font-size:22px;letter-spacing:-.02em;margin:6px 0 14px;line-height:1.2;text-wrap:balance}
+.sheet .x{position:absolute;right:12px;top:10px;width:36px;height:36px;border-radius:50%;font-size:22px;color:var(--ink2);z-index:2}
+.sheet .row{margin-bottom:4px}
+.sheet .foot{display:flex;justify-content:center}
+.steps{list-style:none;margin:0 0 16px;padding:0;display:flex;flex-direction:column;gap:10px;counter-reset:s}
+.steps li{display:flex;gap:12px;align-items:center;line-height:1.35;font-size:15.5px;counter-increment:s}
+.steps li::before{content:counter(s);flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:14px;background:linear-gradient(135deg,#ffd48a,#ff9d5c);color:#4a1d0a}
+.steps svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;vertical-align:-5px;margin:0 2px}
+
+@media (prefers-reduced-motion:reduce){
+  .bloom,.orb,.dots i.cur,.sorb{animation:none!important}
+  .panel.on,.back.on,.overlay.on{animation:none}
+  .toast,.ring .prog,.sheet{transition:none}
+}
+</style>
 </head>
 <body>
-<div class="stars"></div>
-<div id="toast"><div class="ap"></div><div><b id="tt"></b><span id="tb"></span></div></div>
+<div class="world" aria-hidden="true"><div class="bloom"></div><div class="grid a"></div><div class="grid b"></div><div class="grain"></div><div class="vig"></div></div>
+<div class="toast glass" id="toast" role="status" aria-live="polite"></div>
 
-<div id="app"><main>
+<main class="app">
 
-<section class="screen on" id="home">
- <div class="head"><span class="date" id="today"></span></div>
- <div class="score" style="margin-top:40px"><small>Do konce dne</small><b id="leftH">0h 0m</b></div>
- <div class="trio"><div><span>Týden</span><b id="tW">0%</b></div><div><span>Měsíc</span><b id="tM">0%</b></div><div><span>Rok</span><b id="tY">0%</b></div></div>
- <div class="sec"><h3>Myšlenka dne</h3><p>Tvůj čas je omezený. Žij svůj dar.</p></div>
- <div class="card"><div class="quote" id="daily"></div></div>
- <div class="card hide" id="todayOne"><div class="lbl">Dnešní 1 věc</div><div class="quote" style="text-align:left" id="oneTxt"></div>
-  <div style="display:flex;gap:10px;margin-top:16px"><button class="white mint" id="oneDone">✓ Hotovo</button><button class="ghost" id="oneFocus">Soustředit se</button></div></div>
-</section>
+  <!-- TEĎ -->
+  <section class="panel on" id="p-now" aria-label="Teď">
+    <div class="wrap">
+      <div class="clock">
+        <div class="eyebrow" id="date">&nbsp;</div>
+        <div class="t" id="clock">00:00</div>
+      </div>
+      <div class="orbwrap"><button class="orb" id="orb" aria-label="Jsem tady. Klepni a vrať se do přítomnosti."><span>Teď</span></button></div>
+      <h1 class="mantra" id="mantra"></h1>
+      <p class="sub" id="anch">Klepni na kouli a vrať se do tohoto okamžiku.</p>
+      <div class="glass card noti" id="banner" hidden>
+        <div class="k">Oznámení</div>
+        <p class="v" id="bannerText"></p>
+        <button class="btn gold" id="bannerBtn" style="width:100%"></button>
+      </div>
+      <div class="glass card">
+        <div class="k">Citát dne</div>
+        <p class="quote" id="quote"></p>
+        <p class="by" id="quoteBy"></p>
+      </div>
+      <div class="row">
+        <button class="btn" id="goMemento">Memento mori</button>
+        <button class="btn gold" id="goTimer">Spustit časovač</button>
+      </div>
+    </div>
+  </section>
 
-<section class="screen" id="live-s">
- <button class="ghost" data-go="home" style="align-self:flex-start">‹ Zpět</button>
- <h1>1 věc dneska stačí.</h1>
- <div class="card"><div class="lbl">Na čem ti dnes opravdu záleží?</div><p>Napiš jednu věc. Jen jednu.</p>
-  <input type="text" id="oneIn" maxlength="80" placeholder="Např. 20 minut cvičit"></div>
- <div class="card"><div class="lbl">Kolik času?</div>
-  <div class="chips" id="mins"><button class="ghost" data-m="5">5 min</button><button class="ghost sel" data-m="15">15 min</button><button class="ghost" data-m="25">25 min</button><button class="ghost" data-m="45">45 min</button></div></div>
- <button class="white" id="startF" style="width:100%">Začít teď</button>
-</section>
+  <!-- ČASOVAČ -->
+  <section class="panel" id="p-timer" aria-label="Časovač">
+    <div class="wrap">
+      <div>
+        <div class="eyebrow">Časovač</div>
+        <h2 class="title">Udělej to teď.</h2>
+      </div>
+      <div class="chips" id="chips" role="group" aria-label="Výběr aktivity"></div>
+      <div class="ringbox">
+        <div class="ring">
+          <svg viewBox="0 0 260 260" aria-hidden="true">
+            <defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe3a8"/><stop offset="1" stop-color="#ff7a4b"/></linearGradient></defs>
+            <circle class="track" cx="130" cy="130" r="116" fill="none" stroke-width="12"/>
+            <circle class="prog" id="prog" cx="130" cy="130" r="116" fill="none" stroke-width="12" stroke-linecap="round" stroke-dasharray="728.85" stroke-dashoffset="0"/>
+          </svg>
+          <div class="center"><div class="time" id="tTime">2:00</div><div class="lab" id="tLab">Studená voda</div></div>
+        </div>
+      </div>
+      <p class="hint" id="tHint"></p>
+      <div class="stepper"><button id="tMinus" aria-label="O 30 sekund méně">−</button><span id="tCustom">délka</span><button id="tPlus" aria-label="O 30 sekund více">+</button></div>
+      <div class="row">
+        <button class="btn" id="tReset">Znovu</button>
+        <button class="btn gold" id="tStart">Start</button>
+      </div>
+      <div class="glass back" id="back">
+        <div class="big">Jsi zpátky.</div>
+        <p class="lead">Tady a teď. Tohle je tvůj život a právě ho žiješ.</p>
+        <div class="row" style="width:100%">
+          <button class="btn gold" id="playBack">Přehrát hlas</button>
+          <button class="btn" id="doneBack">Pokračuji</button>
+        </div>
+      </div>
+      <div class="eyebrow" style="margin-top:6px">Nahrávky</div>
+      <button class="glass sess" id="sCalm"><span class="ic" aria-hidden="true">🌙</span><span class="tx"><b>Uklidnit se</b><small>Pro stres a přetížení</small></span><span class="go" aria-hidden="true">›</span></button>
+      <button class="glass sess" id="sEnergy"><span class="ic" aria-hidden="true">⚡</span><span class="tx"><b>Povzbudit se</b><small>Pro energii a nakopnutí</small></span><span class="go" aria-hidden="true">›</span></button>
+    </div>
+  </section>
 
-<section class="screen center" id="focus">
- <div class="date" style="margin-top:10px">Teď jen tohle</div>
- <h2 id="fTask"></h2>
- <div class="ring"><svg viewBox="0 0 240 240"><circle class="trk" cx="120" cy="120" r="100"/><circle class="prg" id="fRing" cx="120" cy="120" r="100" stroke-dasharray="628.3" stroke-dashoffset="0"/></svg>
-  <div class="mid"><b id="fTime">15:00</b><p>Telefon dolů.</p></div></div>
- <div style="display:flex;gap:10px;justify-content:center"><button class="ghost" id="fPause">❚❚ Pauza</button><button class="white mint" id="fEnd">✓ Hotovo</button></div>
-</section>
+  <!-- OZNÁMENÍ -->
+  <section class="panel" id="p-hours" aria-label="Oznámení">
+    <div class="wrap">
+      <div>
+        <div class="eyebrow">Oznámení</div>
+        <h2 class="title">Přímo do telefonu.</h2>
+        <p class="lead" style="margin-top:8px">V každou zapnutou hodinu ti přijde jedna věta. Se zvukem, s vibrací a na zamčené obrazovce.</p>
+      </div>
+      <div class="glass card">
+        <div class="status"><span class="dot" id="pDot"></span><b id="pTitle">Vypnuto</b></div>
+        <p class="lead" style="font-size:15px;margin-bottom:14px" id="pText"></p>
+        <div class="row" id="pBtns"></div>
+      </div>
+      <div class="glass card" style="padding-bottom:12px">
+        <div class="k">Kdy ti mají chodit</div>
+        <div class="row" style="margin-bottom:8px">
+          <button class="btn small" id="onDay">Zapnout 8 až 21</button>
+          <button class="btn small" id="offAll">Vypnout vše</button>
+        </div>
+        <div class="hours" id="hours" style="padding:0"></div>
+        <p class="note" style="margin-top:10px">Když nic nenapíšeš, věta se vybere sama a každou hodinu je jiná. Můžeš ji přepsat vlastní.</p>
+      </div>
+      <div class="row"><button class="btn small" id="showInstall">Jak přidat na plochu</button></div>
+    </div>
+  </section>
 
-<section class="screen" id="audio">
- <div class="head"><div class="logo">Audio</div></div>
- <p style="padding:0 6px">Poslechni, co potřebuješ. Pak jdi.</p>
- <button class="card row" data-t="calm"><span class="ic">🌙</span><span><b>Uklidnit se</b><small>Pro stres a přetížení</small></span><span class="ch">›</span></button>
- <button class="card row" data-t="boost"><span class="ic">⚡</span><span><b>Povzbudit se</b><small>Pro energii a nakopnutí</small></span><span class="ch">›</span></button>
-</section>
+  <!-- MEMENTO -->
+  <section class="panel" id="p-memento" aria-label="Memento mori">
+    <div class="wrap">
+      <div class="eyebrow">Memento mori</div>
+      <h2 class="mm-title" id="mmTitle"></h2>
+      <p class="mm-live">Na téhle obrazovce jsi už <b id="mmSec">0</b> s. Tyhle vteřiny se ti nikdy nevrátí.</p>
 
-<section class="screen" id="player">
- <button class="ghost" id="back" style="align-self:flex-start">‹ Zpět</button>
- <div class="card center" style="padding:30px 20px">
-  <div class="orbP" id="orb"><div class="gem"></div></div>
-  <h2 id="pt"></h2><p id="pd"></p>
-  <div class="abar" id="bar"><i id="fill"></i></div>
-  <div class="time"><span id="cur">0:00</span><span id="dur">0:00</span></div>
-  <button class="pp" id="pp" aria-label="Přehrát">▶</button>
- </div>
-</section>
+      <div class="nums" id="nums" hidden>
+        <div class="glass"><div class="big-n" id="nWeekends">0</div><small>víkendů ti zbývá</small></div>
+        <div class="glass"><div class="big-n" id="nDays">0</div><small>rán, kdy se můžeš probudit</small></div>
+      </div>
 
-<section class="screen center" id="end">
- <div class="stage" style="height:280px"><div class="glow"></div><div class="gem"></div><div class="ped"></div></div>
- <h1 id="endt">Teď už běž.</h1>
-</section>
+      <div class="glass card">
+        <div class="k" id="yearK">Kolik ti zbývá?</div>
+        <p class="lead" style="font-size:15px" id="weeksText">Zadej rok narození. Nic se neposílá, zůstává jen v tomto telefonu.</p>
+        <div class="year"><input type="number" id="birth" inputmode="numeric" placeholder="např. 1990" min="1920" max="2026" aria-label="Rok narození"><button class="btn small gold" id="birthOk">Ukázat</button></div>
+        <canvas id="weeks" style="margin-top:16px" hidden aria-label="Mřížka týdnů života"></canvas>
+      </div>
 
-<section class="screen" id="memento">
- <div class="head"><div class="logo">Memento</div></div>
- <div class="card center"><div class="ring"><svg viewBox="0 0 240 240"><circle class="trk" cx="120" cy="120" r="100"/><circle class="prg" id="dRing" cx="120" cy="120" r="100" stroke-dasharray="628.3"/></svg>
-  <div class="mid"><b id="left" style="font-size:2.4rem">0 h</b><p>zbývá z dneška</p></div></div>
-  <p class="quote" id="mm" style="color:var(--ink)"></p></div>
- <div class="card"><div class="lbl">Dnešní hodiny</div><div class="bars" id="hours"></div><div class="axis"><span>0</span><span>6</span><span>12</span><span>18</span><span>24</span></div></div>
- <div class="card">
-  <div class="pl"><span>Týden</span><span id="wP"></span></div><div class="pbar"><i id="wB"></i></div>
-  <div class="pl"><span>Měsíc</span><span id="mP"></span></div><div class="pbar"><i id="mB"></i></div>
-  <div class="pl"><span>Rok <span id="yr"></span></span><span id="yP"></span></div><div class="pbar" style="margin-bottom:0"><i id="yB"></i></div>
- </div>
-</section>
+      <div class="glass card">
+        <div class="k">Dnes ti ještě zbývá</div>
+        <div class="big-n" id="leftToday">0 h 0 min</div>
+        <p class="sub" style="text-align:left;margin-top:8px" id="leftSub">bdělého času do 23:00</p>
+        <div class="dots" id="dayDots" aria-hidden="true"></div>
+      </div>
 
-<section class="screen" id="settings">
- <div class="head"><div class="logo">Nastavení</div></div>
- <p style="padding:0 6px">Uloženo jen v tomto zařízení.</p>
- <div class="card">
-  <div class="set"><label for="nOn">Denní připomínka</label><div class="sw" id="nOn" role="switch" tabindex="0" aria-checked="false"></div></div>
-  <div class="set"><label for="nTime">Čas</label><input type="time" id="nTime" value="20:00"></div>
-  <div class="set"><label for="nType">Typ</label>
-   <select id="nType"><option value="all">Střídat</option><option value="3">ŽIJ TO NOVÉ JÁ</option><option value="0">Tvůj čas je omezený</option><option value="1">Jeden další den skončil</option><option value="2">1 věc dneska stačí</option></select></div>
- </div>
- <p style="font-size:.8rem;padding:0 6px" id="nNote"></p>
- <button class="ghost" id="test" style="align-self:flex-start">🔔 Poslat zkušební připomínku</button>
-</section>
-
+      <button class="btn gold" id="mmGo" style="flex:none">Dost. Jdu žít.</button>
+    </div>
+  </section>
 </main>
-<div class="dock">
- <div class="sess" id="sess"><span style="font-size:1.4rem">💎</span><div class="t"><b id="sT">Žít naplno</b><span id="sS">1 věc dneska stačí</span></div><button class="white" id="live">Začít</button><div class="line" id="sL"></div></div>
- <nav>
-  <button data-s="home" class="on"><b>◯</b>Domů</button>
-  <button data-s="audio"><b>♫</b>Audio</button>
-  <button data-s="memento"><b>⧗</b>Memento</button>
-  <button data-s="settings"><b>⚙︎</b>Nastavení</button>
- </nav>
-</div>
+
+<nav class="tabs glass" role="tablist" aria-label="Hlavní navigace">
+  <button class="tab" role="tab" aria-selected="true" data-t="now"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="2.5"/></svg>Teď</button>
+  <button class="tab" role="tab" aria-selected="false" data-t="timer"><svg viewBox="0 0 24 24"><circle cx="12" cy="13.5" r="7.5"/><path d="M12 9.5v4l2.5 1.5M9.5 3h5"/></svg>Časovač</button>
+  <button class="tab" role="tab" aria-selected="false" data-t="hours"><svg viewBox="0 0 24 24"><path d="M6 17V11a6 6 0 0 1 12 0v6l1.5 2h-15zM10 21h4"/></svg>Oznámení</button>
+  <button class="tab" role="tab" aria-selected="false" data-t="memento"><svg viewBox="0 0 24 24"><path d="M7 3h10M7 21h10M8 3c0 5 8 5 8 9s-8 4-8 9M16 3c0 5-8 5-8 9s8 4 8 9"/></svg>Memento</button>
+</nav>
+
+<div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-label="Vedená nahrávka">
+  <div class="eyebrow" id="sEyebrow"></div>
+  <div class="sorb" aria-hidden="true"></div>
+  <p class="sline" id="sLine" aria-live="polite"></p>
+  <div class="sbar" aria-hidden="true"><i id="sBar"></i></div>
+  <button class="btn" id="sClose" style="flex:none;min-width:180px">Ukončit</button>
 </div>
 
+<!-- průvodce instalací -->
+<div class="sheet glass" id="install" role="dialog" aria-label="Přidat aplikaci na plochu">
+  <button class="x" id="insX" aria-label="Zavřít">×</button>
+  <div class="eyebrow">Přidej si ji do telefonu</div>
+  <h3 id="insTitle">Měj ji vždy po ruce, i bez internetu.</h3>
+  <div id="insBody"></div>
+  <div class="row"><button class="btn gold" id="insDo">Nainstalovat</button><button class="btn" id="insLater">Později</button></div>
+  <div class="foot"><button class="linkbtn" id="insNever">Už ji mám nainstalovanou</button></div>
+</div>
+
+<!-- povolení oznámení -->
+<div class="sheet glass" id="perm" role="dialog" aria-label="Povolit oznámení">
+  <div class="eyebrow">Poslední krok</div>
+  <h3>Povol oznámení a hodina tě sama najde.</h3>
+  <p class="lead" style="margin-bottom:16px">Telefon se tě zeptá, jestli smí posílat oznámení. Klepni na Povolit. Pak ti každou hodinu přijde jedna věta, i když máš zamčeno. Vypneš je kdykoli.</p>
+  <div class="row"><button class="btn gold" id="permDo">Povolit oznámení</button><button class="btn" id="permLater">Teď ne</button></div>
+</div>
+
+<script src="lines.js"></script>
 <script>
-const TRACKS={
- calm:{title:'Uklidnit se',desc:'Zastav se. Dýchej.',src:'',dur:90,end:'Teď už běž.'},
- boost:{title:'Povzbudit se',desc:'Nakopni se.',src:'',dur:90,end:'Víš, co máš udělat.<br>Tak běž.'}
-};
-const THOUGHTS=['Nemáš nekonečně času. Máš dnešek.','Co dnes stojí za tvoji pozornost?','1 věc dneska stačí.','Přestaň sledovat životy ostatních. Začni žít svůj.','Tvůj čas je omezený. Využij dnešek.','Nové já nezačíná v pondělí. Začíná teď.'];
-const NOTIF=[['⏳ Tvůj čas je omezený.','Co dnes stálo za tvoji pozornost?'],['Jeden další den právě skončil.','Jak jsi ho využil?'],['1 věc dneska stačí.','Využij dnešek.'],['ŽIJ TO NOVÉ JÁ','Nové já nečeká na zítřek. Udělej jednu věc teď.']];
+(function(){
+  "use strict";
+  var $=function(s){return document.querySelector(s)};
+  var $$=function(s){return Array.prototype.slice.call(document.querySelectorAll(s))};
+  function pad(n){return n<10?"0"+n:""+n}
 
-const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
-const store={get(k,d){try{const v=localStorage.getItem(k);return v===null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
-const fmt=s=>Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0');
-const vib=p=>{try{navigator.vibrate&&navigator.vibrate(p)}catch(e){}};
-const todayKey=()=>new Date().toDateString();
+  /* ---------- persistence: only on this phone ---------- */
+  var store={hours:{},birth:null,ins:{n:0,snooze:0,never:false,installed:false},push:{on:false,snooze:0}};
+  try{var raw=localStorage.getItem("lyg-v3");if(raw){var o=JSON.parse(raw);if(o&&typeof o==="object"){store.hours=o.hours||{};store.birth=o.birth||null;store.ins=Object.assign(store.ins,o.ins||{});store.push=Object.assign(store.push,o.push||{})}}}catch(e){}
+  function idbSet(k,v){
+    try{
+      var r=indexedDB.open("lyg",1);
+      r.onupgradeneeded=function(){r.result.createObjectStore("kv")};
+      r.onsuccess=function(){try{r.result.transaction("kv","readwrite").objectStore("kv").put(v,k)}catch(e){}};
+    }catch(e){}
+  }
+  function save(){
+    try{localStorage.setItem("lyg-v3",JSON.stringify(store))}catch(e){}
+    idbSet("cfg",{hours:store.hours});
+  }
+  function hourCfg(h){if(!store.hours[h]){store.hours[h]={on:h>=8&&h<=21,t:""}}return store.hours[h]}
+  function lineNow(d){var c=hourCfg(d.getHours());return window.lygLine(d,c.t)}
+  function onHours(){var a=[];for(var h=0;h<24;h++){if(store.hours[h]?store.hours[h].on:(h>=8&&h<=21))a.push(h)}return a}
 
-function show(id){$$('.screen').forEach(e=>e.classList.toggle('on',e.id===id));
- const tab={player:'audio',end:'audio','live-s':'home',focus:'home'}[id]||id;
- $$('nav button').forEach(b=>b.classList.toggle('on',b.dataset.s===tab));
- if(id!=='player')stop();$('main').scrollTop=0;renderSess()}
-$$('nav button').forEach(b=>b.onclick=()=>{vib(8);show(b.dataset.s)});
-document.addEventListener('click',e=>{const g=e.target.closest('[data-go]');if(g)show(g.dataset.go)});
+  /* ---------- audio ---------- */
+  var ctx=null;
+  function audio(){
+    try{
+      if(!ctx){var AC=window.AudioContext||window.webkitAudioContext;if(AC)ctx=new AC()}
+      if(ctx&&ctx.state==="suspended")ctx.resume();
+    }catch(e){}
+    return ctx;
+  }
+  function chime(){
+    var c=audio();if(!c)return;
+    var t0=c.currentTime+0.02;
+    [[523.25,0],[659.25,0.16],[783.99,0.32],[1046.5,0.5]].forEach(function(n){
+      [1,2.01].forEach(function(mult,i){
+        var o=c.createOscillator(),g=c.createGain();
+        o.type="sine";o.frequency.value=n[0]*mult;
+        var peak=i===0?0.16:0.04,s=t0+n[1];
+        g.gain.setValueAtTime(0.0001,s);
+        g.gain.exponentialRampToValueAtTime(peak,s+0.02);
+        g.gain.exponentialRampToValueAtTime(0.0001,s+1.9);
+        o.connect(g);g.connect(c.destination);o.start(s);o.stop(s+2);
+      });
+    });
+  }
+  function buzz(p){try{if(navigator.vibrate)navigator.vibrate(p)}catch(e){}}
+  function speak(text,onend){
+    try{
+      if(!("speechSynthesis" in window))return false;
+      window.speechSynthesis.cancel();
+      var u=new SpeechSynthesisUtterance(text);u.lang="cs-CZ";u.rate=.85;u.pitch=.95;
+      var v=window.speechSynthesis.getVoices().filter(function(x){return /^cs/i.test(x.lang)})[0];
+      if(v)u.voice=v;
+      if(onend){u.onend=onend;u.onerror=onend}
+      window.speechSynthesis.speak(u);return true;
+    }catch(e){return false}
+  }
+  function stopSpeak(){try{window.speechSynthesis.cancel()}catch(e){}}
 
-let tT;function toast(t,b){$('#tt').textContent=t;$('#tb').textContent=b;$('#toast').classList.add('on');vib([20,40,20]);clearTimeout(tT);tT=setTimeout(()=>$('#toast').classList.remove('on'),4200)}
-$('#toast').onclick=()=>$('#toast').classList.remove('on');
+  var toastT=null;
+  function toast(msg,ms){
+    var t=$("#toast");t.textContent=msg;t.classList.add("on");
+    clearTimeout(toastT);toastT=setTimeout(function(){t.classList.remove("on")},ms||5200);
+  }
 
-const day=Math.floor(Date.now()/864e5);
-$('#daily').textContent=THOUGHTS[day%THOUGHTS.length];
-$('#mm').textContent=THOUGHTS[(day+2)%THOUGHTS.length];
-$('#today').textContent=new Date().toLocaleDateString('cs-CZ',{weekday:'short',day:'numeric',month:'short'});
+  /* ---------- tabs ---------- */
+  var mmStart=0;
+  function go(name){
+    $$(".panel").forEach(function(p){p.classList.toggle("on",p.id==="p-"+name)});
+    $$(".tab").forEach(function(b){b.setAttribute("aria-selected",b.dataset.t===name?"true":"false")});
+    if(name==="memento"){mmStart=Date.now();drawWeeks();countUp()}
+    if(name==="hours")renderPush();
+  }
+  $$(".tab").forEach(function(b){b.addEventListener("click",function(){go(b.dataset.t)})});
+  $("#goTimer").addEventListener("click",function(){go("timer");audio()});
+  $("#goMemento").addEventListener("click",function(){go("memento")});
 
-// fokus + session bar
-let fMin=15,fLeft=0,fTot=0,fInt=null,fRun=false;
-function activeOne(){const o=store.get('one',null);return o&&o.day===todayKey()&&!o.done?o:null}
-function renderSess(){const o=activeOne(),onFocus=$('#focus').classList.contains('on');
- $('#sess').classList.toggle('hide',onFocus);
- $('#todayOne').classList.toggle('hide',!o);if(o)$('#oneTxt').textContent=o.text;
- if(fTot&&fLeft>0){$('#sT').textContent=o?o.text:'Soustředění';$('#sS').textContent='⏱ '+fmt(fLeft);$('#live').textContent=fRun?'❚❚ Pauza':'▶ Dál';$('#sL').style.width=(100*(1-fLeft/fTot))+'%'}
- else if(o){$('#sT').textContent=o.text;$('#sS').textContent='Dnešní 1 věc';$('#live').textContent='Začít';$('#sL').style.width='0'}
- else{$('#sT').textContent='Žít naplno';$('#sS').textContent='1 věc dneska stačí';$('#live').textContent='Začít';$('#sL').style.width='0'}}
-$('#live').onclick=()=>{if(fTot&&fLeft>0){fRun?fPause():fGo();show('focus');return}const o=activeOne();$('#oneIn').value=o?o.text:'';show('live-s');setTimeout(()=>$('#oneIn').focus(),300)};
-function markDone(){const o=store.get('one',null);if(o){o.done=true;store.set('one',o)}clearInterval(fInt);fRun=false;fTot=fLeft=0;
- toast('ŽIJ TO NOVÉ JÁ','Hotovo. Takhle vypadá život, ne scrollování.');$('#endt').innerHTML='Hotovo.<br>Tohle je nové já.';show('end')}
-$('#oneDone').onclick=markDone;
-$('#oneFocus').onclick=()=>{$('#oneIn').value=(activeOne()||{}).text||'';show('live-s')};
-$$('#mins button').forEach(b=>b.onclick=()=>{fMin=+b.dataset.m;$$('#mins button').forEach(x=>x.classList.toggle('sel',x===b))});
-$('#startF').onclick=()=>{const t=$('#oneIn').value.trim();if(!t){$('#oneIn').focus();$('#oneIn').placeholder='Napiš aspoň jednu věc';vib(30);return}
- store.set('one',{text:t,day:todayKey(),done:false});$('#fTask').textContent=t;fTot=fLeft=fMin*60;fUpd();show('focus');fGo()};
-function fUpd(){$('#fTime').textContent=fmt(fLeft);$('#fRing').style.strokeDashoffset=628.3*(1-fLeft/fTot);renderSess()}
-function fGo(){fRun=true;$('#fPause').textContent='❚❚ Pauza';clearInterval(fInt);fInt=setInterval(()=>{fLeft--;fUpd();if(fLeft<=0){clearInterval(fInt);fRun=false;toast('⏰ Čas vypršel','Dokončil jsi to? Klikni na Hotovo.')}},1000);renderSess()}
-function fPause(){fRun=false;clearInterval(fInt);$('#fPause').textContent='▶ Pokračovat';renderSess()}
-$('#fPause').onclick=()=>fRun?fPause():fGo();
-$('#fEnd').onclick=markDone;
+  /* ---------- citáty (staré volné texty, vlastní překlad) ---------- */
+  var quotes=[
+    ["Není pravda, že máme málo času. Pravda je, že ho mnoho promarníme.","Seneca"],
+    ["Zatímco se odkládá, život ubíhá.","Seneca"],
+    ["Nežij, jako bys měl před sebou deset tisíc let. Osud visí nad tebou. Dokud žiješ, dokud můžeš, buď dobrý.","Marcus Aurelius"],
+    ["Nezkoumaný život nestojí za to žít.","Sókratés"],
+    ["Chtěl jsem žít hluboce a vysát z života všechnu dřeň.","Henry David Thoreau"],
+    ["Šel jsem do lesů, protože jsem chtěl žít záměrně.","Henry David Thoreau"],
+    ["Užij dne a co nejméně věř zítřku.","Horatius"],
+    ["Považuj každý nový den za svůj poslední.","Horatius"],
+    ["Cesta o tisíci mílích začíná jedním krokem.","Lao-c’"],
+    ["Co stojí v cestě, stává se cestou.","Marcus Aurelius"],
+    ["Nezáleží na tom, jak dlouho hraješ, ale jak dobře.","Seneca"],
+    ["Celý život se máme učit, jak žít.","Seneca"],
+    ["Nic neodkládejme. Každý den uzavři své účty se životem.","Seneca"],
+    ["Filozofovat znamená učit se umírat.","Michel de Montaigne"],
+    ["Kdo má proč žít, snese téměř každé jak.","Friedrich Nietzsche"],
+    ["Kdo začal, má půl hotovo. Odvaž se být moudrý.","Horatius"],
+    ["Nejsou to věci, co znepokojuje lidi, ale názory, které o nich mají.","Epiktétos"],
+    ["Nejprve si řekni, kým chceš být. Pak dělej, co k tomu patří.","Epiktétos"],
+    ["Neusiluj o to, aby se věci děly, jak chceš. Chtěj, aby se děly tak, jak se dějí.","Epiktétos"],
+    ["Charakter je dokonalý, když prožiješ každý den, jako by byl poslední, bez zmatku, bez otupělosti a bez přetvářky.","Marcus Aurelius"],
+    ["Můžeš odejít z života hned teď. Podle toho měj posuzovat, co děláš, říkáš a myslíš.","Marcus Aurelius"],
+    ["Do téže řeky nevstoupíš dvakrát.","Hérakleitos"],
+    ["Kdo zná druhé, je důvtipný. Kdo zná sám sebe, je osvícený.","Lao-c’"],
+    ["Většina lidí vede život tichého zoufalství.","Henry David Thoreau"],
+    ["Život mrtvých spočívá v paměti živých.","Cicero"]
+  ];
+  function dayOfYear(d){var s=new Date(d.getFullYear(),0,0);return Math.floor((d-s)/86400000)}
+  (function(){var q=quotes[(dayOfYear(new Date())+new Date().getFullYear())%quotes.length];$("#quote").textContent="„"+q[0]+"“";$("#quoteBy").textContent="— "+q[1]})();
 
-// čas
-function setBar(id,p){$(id).style.width=(p*100).toFixed(1)+'%'}
-const hb=$('#hours');for(let i=0;i<24;i++)hb.appendChild(document.createElement('i'));
-function left(){const n=new Date(),m=new Date(n);m.setHours(24,0,0,0);const mins=Math.round((m-n)/6e4);
- $('#left').textContent=Math.floor(mins/60)+' h '+mins%60+' m';$('#leftH').textContent=Math.floor(mins/60)+'h '+mins%60+'m';
- $('#dRing').style.strokeDashoffset=628.3*(1-mins/1440);
- const wd=(n.getDay()+6)%7,wp=(wd+(n.getHours()*60+n.getMinutes())/1440)/7;
- const md=new Date(n.getFullYear(),n.getMonth()+1,0).getDate(),mp=(n.getDate()-1+n.getHours()/24)/md;
- const ys=new Date(n.getFullYear(),0,1),ye=new Date(n.getFullYear()+1,0,1),yp=(n-ys)/(ye-ys);
- setBar('#wB',wp);setBar('#mB',mp);setBar('#yB',yp);
- const P=x=>Math.round(x*100)+'%';$('#wP').textContent=$('#tW').textContent=P(wp);$('#mP').textContent=$('#tM').textContent=P(mp);$('#yP').textContent=$('#tY').textContent=P(yp);$('#yr').textContent=n.getFullYear();
- [...hb.children].forEach((b,i)=>{const past=i<n.getHours();b.className=past?'':'off';b.style.height=past?(40+((i*37)%55))+'%':'100%'})}
-left();setInterval(left,3e4);
+  var anchors=0;
+  $("#orb").addEventListener("click",function(){
+    var o=$("#orb");o.classList.remove("ping");void o.offsetWidth;o.classList.add("ping");
+    chime();buzz(30);anchors++;
+    $("#anch").textContent=anchors===1?"Jsi tady. Teď. Přesně tady.":"Jsi tady. Zase. "+anchors+"× dnes.";
+  });
 
-// audio
-let cur=null,au=null,sim=null,pos=0,playing=false;
-$$('[data-t]').forEach(c=>c.onclick=()=>{cur=TRACKS[c.dataset.t];cur.id=c.dataset.t;pos=store.get('pos:'+cur.id,0);au=null;
- $('#pt').textContent=cur.title;$('#pd').textContent=cur.desc+(cur.src?'':' (ukázka bez nahrávky)');
- $('#dur').textContent=fmt(cur.dur);paint();show('player');
- if(cur.src){au=new Audio(cur.src);au.preload='metadata';au.onloadedmetadata=()=>{cur.dur=au.duration;$('#dur').textContent=fmt(cur.dur);au.currentTime=pos};au.ontimeupdate=()=>{pos=au.currentTime;paint()};au.onended=finish}});
-function paint(){$('#cur').textContent=fmt(pos);$('#fill').style.width=(cur?pos/cur.dur*100:0)+'%'}
-function play(){if(!cur)return;playing=true;$('#pp').textContent='❚❚';$('#orb').classList.add('play');if(au)au.play();else sim=setInterval(()=>{pos+=1;paint();if(pos>=cur.dur)finish()},1000)}
-function stop(){if(!playing)return;playing=false;$('#pp').textContent='▶';$('#orb').classList.remove('play');if(au)au.pause();clearInterval(sim);if(cur)store.set('pos:'+cur.id,pos)}
-function finish(){stop();pos=0;store.set('pos:'+cur.id,0);$('#endt').innerHTML=cur.end;show('end')}
-$('#pp').onclick=()=>playing?stop():play();
-$('#back').onclick=()=>{stop();show('audio')};
-$('#bar').onclick=e=>{if(!cur)return;const r=e.currentTarget.getBoundingClientRect();pos=(e.clientX-r.left)/r.width*cur.dur;if(au)au.currentTime=pos;paint()};
+  var DAYS=["neděle","pondělí","úterý","středa","čtvrtek","pátek","sobota"];
+  var MONTHS=["ledna","února","března","dubna","května","června","července","srpna","září","října","listopadu","prosince"];
 
-// notifikace
-const sw=$('#nOn');
-$('#nTime').value=store.get('time','20:00');$('#nType').value=store.get('type','all');sw.setAttribute('aria-checked',store.get('on',false));
-$('#nNote').textContent=('Notification' in window)?'Připomínka se zobrazí, když je aplikace otevřená. Na pozadí by to vyžadovalo push server.':'Tento prohlížeč systémové notifikace nepodporuje – připomínka se ukáže v aplikaci.';
-async function toggle(){const on=sw.getAttribute('aria-checked')!=='true';vib(10);
- if(on&&'Notification' in window&&Notification.permission==='default'){try{await Notification.requestPermission()}catch(e){}}
- sw.setAttribute('aria-checked',on);store.set('on',on)}
-sw.onclick=toggle;sw.onkeydown=e=>{if(e.key===' '||e.key==='Enter'){e.preventDefault();toggle()}};
-$('#nTime').onchange=e=>store.set('time',e.target.value);
-$('#nType').onchange=e=>store.set('type',e.target.value);
-function pick(){const t=store.get('type','all');return NOTIF[t==='all'?day%NOTIF.length:+t]}
-function fire(){const [t,b]=pick();toast(t,b);try{if('Notification' in window&&Notification.permission==='granted')new Notification(t,{body:b})}catch(e){}}
-$('#test').onclick=fire;
-setInterval(()=>{if(!store.get('on',false))return;const n=new Date(),hm=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0');
- if(hm===store.get('time','20:00')&&store.get('last','')!==n.toDateString()){store.set('last',n.toDateString());fire()}},20000);
+  /* ---------- platforma ---------- */
+  var ua=navigator.userAgent||"";
+  var isIOS=/iPhone|iPad|iPod/i.test(ua)||(/Macintosh/i.test(ua)&&navigator.maxTouchPoints>1);
+  var isAndroid=/Android/i.test(ua);
+  var iosNotSafari=isIOS&&/CriOS|FxiOS|EdgiOS|OPiOS|FBAN|FBAV|Instagram|Line\/|GSA\//i.test(ua);
+  function isStandalone(){
+    try{
+      return (window.matchMedia&&(matchMedia("(display-mode: standalone)").matches||matchMedia("(display-mode: fullscreen)").matches||matchMedia("(display-mode: minimal-ui)").matches))||navigator.standalone===true||(document.referrer||"").indexOf("android-app://")===0||/[?&]source=pwa/.test(location.search);
+    }catch(e){return false}
+  }
 
-renderSess();
-try{const svg="data:image/svg+xml,"+encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><defs><radialGradient id='g' cx='.35' cy='.3'><stop offset='0' stop-color='#fff'/><stop offset='.4' stop-color='#a6f2cf'/><stop offset='.8' stop-color='#7ad7ff'/><stop offset='1' stop-color='#ffd36b'/></radialGradient></defs><rect width='512' height='512' rx='110' fill='#050807'/><ellipse cx='256' cy='250' rx='130' ry='160' fill='url(#g)'/></svg>");
- const m={name:'Žij svůj dar',short_name:'Žij',lang:'cs',display:'standalone',start_url:'.',background_color:'#050807',theme_color:'#050807',icons:[{src:svg,sizes:'512x512',type:'image/svg+xml'}]};
- const l=document.createElement('link');l.rel='manifest';l.href=URL.createObjectURL(new Blob([JSON.stringify(m)],{type:'application/json'}));document.head.appendChild(l)}catch(e){}
+  /* ---------- OZNÁMENÍ: hodiny ---------- */
+  var H0=6,H1=23,syncT=null;
+  function buildHours(){
+    var box=$("#hours");box.textContent="";
+    for(var h=H0;h<=H1;h++){(function(h){
+      var c=hourCfg(h);
+      var row=document.createElement("div");row.className="hr"+(c.on?"":" off");row.dataset.h=h;
+      var tm=document.createElement("time");tm.textContent=pad(h)+":00";
+      var inp=document.createElement("input");inp.type="text";inp.id="h"+h;inp.placeholder="vybere se sama";inp.value=c.t||"";inp.maxLength=60;inp.setAttribute("aria-label","Vlastní věta pro "+pad(h)+":00");
+      inp.addEventListener("input",function(){hourCfg(h).t=inp.value;save();renderMantra()});
+      var sw=document.createElement("button");sw.className="sw";sw.setAttribute("role","switch");sw.setAttribute("aria-checked",c.on?"true":"false");sw.setAttribute("aria-label","Zapnout "+pad(h)+":00");
+      sw.addEventListener("click",function(){var cc=hourCfg(h);cc.on=!cc.on;save();sw.setAttribute("aria-checked",cc.on?"true":"false");row.classList.toggle("off",!cc.on);syncSoon()});
+      row.appendChild(tm);row.appendChild(inp);row.appendChild(sw);box.appendChild(row);
+    })(h)}
+    markNow();
+  }
+  function markNow(){var n=new Date().getHours();$$(".hr").forEach(function(r){r.classList.toggle("now",+r.dataset.h===n)})}
+  $("#onDay").addEventListener("click",function(){for(var h=H0;h<=H1;h++){hourCfg(h).on=h>=8&&h<=21}save();buildHours();syncSoon()});
+  $("#offAll").addEventListener("click",function(){for(var h=H0;h<=H1;h++){hourCfg(h).on=false}save();buildHours();syncSoon()});
+  function renderMantra(){$("#mantra").textContent=lineNow(new Date())}
+
+  /* ---------- OZNÁMENÍ: skutečný push ---------- */
+  var swReg=null;
+  function pushSupport(){
+    if(!("Notification" in window)) return "none";
+    if(isIOS&&!isStandalone()) return "install";
+    if(!("serviceWorker" in navigator)||!("PushManager" in window)||!/^https?:$/.test(location.protocol)) return "none";
+    return "ok";
+  }
+  function b64ToU8(s){
+    var p="=".repeat((4-s.length%4)%4),b=(s+p).replace(/-/g,"+").replace(/_/g,"/"),r=atob(b),a=new Uint8Array(r.length);
+    for(var i=0;i<r.length;i++)a[i]=r.charCodeAt(i);return a;
+  }
+  function getReg(){
+    if(swReg)return Promise.resolve(swReg);
+    return navigator.serviceWorker.ready.then(function(r){swReg=r;return r});
+  }
+  function syncSub(sub){
+    var body={sub:sub.toJSON(),hours:onHours(),tz:(Intl.DateTimeFormat().resolvedOptions().timeZone||"Europe/Prague")};
+    return fetch("api/subscribe",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(body)}).then(function(r){if(!r.ok)throw new Error("srv")});
+  }
+  function syncSoon(){
+    if(!store.push.on||pushSupport()!=="ok")return;
+    clearTimeout(syncT);
+    syncT=setTimeout(function(){
+      getReg().then(function(r){return r.pushManager.getSubscription()}).then(function(s){if(s)return syncSub(s)}).catch(function(){});
+    },900);
+  }
+  function enablePush(){
+    audio();
+    var sup=pushSupport();
+    if(sup==="install"){showInstall(true);return Promise.resolve()}
+    if(sup!=="ok"){toast("Tenhle prohlížeč oznámení nepodporuje.");return Promise.resolve()}
+    var ask=Notification.permission==="default"?Notification.requestPermission():Promise.resolve(Notification.permission);
+    return Promise.resolve(ask).then(function(perm){
+      if(perm!=="granted"){renderPush();return}
+      return getReg().then(function(reg){
+        return fetch("api/vapid",{cache:"no-store"}).then(function(r){if(!r.ok)throw new Error("srv");return r.text()}).then(function(key){
+          return reg.pushManager.getSubscription().then(function(s){
+            return s||reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:b64ToU8(key.trim())});
+          });
+        }).then(syncSub).then(function(){
+          store.push.on=true;save();chime();buzz(40);toast("Oznámení zapnutá.");
+        });
+      });
+    }).catch(function(){
+      store.push.on=false;save();
+      toast("Server oznámení neodpovídá. Zkus to za chvíli.",6500);
+    }).then(function(){renderPush();hidePerm()});
+  }
+  function disablePush(){
+    getReg().then(function(r){return r.pushManager.getSubscription()}).then(function(s){
+      if(!s)return;
+      var ep=s.endpoint;
+      return fetch("api/unsubscribe",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({endpoint:ep})}).catch(function(){}).then(function(){return s.unsubscribe()});
+    }).catch(function(){}).then(function(){store.push.on=false;save();renderPush();toast("Oznámení vypnutá.")});
+  }
+  function mkBtn(text,cls,fn){var b=document.createElement("button");b.className="btn small "+(cls||"");b.textContent=text;b.addEventListener("click",fn);return b}
+  function renderPush(){
+    var sup=pushSupport(),perm=("Notification" in window)?Notification.permission:"unsupported";
+    var dot=$("#pDot"),title=$("#pTitle"),text=$("#pText"),btns=$("#pBtns");
+    btns.textContent="";
+    var banner=$("#banner"),bt=$("#bannerText"),bb=$("#bannerBtn");
+    banner.hidden=true;
+    var on=store.push.on&&perm==="granted"&&sup==="ok";
+    dot.classList.toggle("on",on);
+    if(on){
+      title.textContent="Zapnuto";
+      text.textContent="V zapnuté hodiny ti přijde věta přímo do telefonu, i když je zamčený.";
+      btns.appendChild(mkBtn("Vypnout oznámení","",disablePush));
+    }else if(sup==="install"){
+      title.textContent="Nejdřív přidej aplikaci na plochu";
+      text.textContent="Na iPhonu oznámení fungují jen z aplikace na ploše. Přidej si ji a otevři z plochy.";
+      btns.appendChild(mkBtn("Jak přidat na plochu","gold",function(){showInstall(true)}));
+      bt.textContent="Na iPhonu oznámení fungují jen z aplikace na ploše.";bb.textContent="Jak přidat na plochu";bb.onclick=function(){showInstall(true)};banner.hidden=false;
+    }else if(sup==="none"){
+      title.textContent="Nedostupné";
+      text.textContent="Tenhle prohlížeč oznámení nepodporuje. V Chromu, Edge nebo Safari z plochy fungují.";
+    }else if(perm==="denied"){
+      title.textContent="Zablokováno";
+      text.textContent="Oznámení jsi zakázal. Povolíš je v nastavení telefonu u téhle aplikace nebo v nastavení prohlížeče.";
+    }else{
+      title.textContent="Vypnuto";
+      text.textContent=perm==="granted"?"Povolení máš. Zapni oznámení a dokonči připojení.":"Klepni na Povolit. Telefon se zeptá a pak ti budou chodit oznámení.";
+      btns.appendChild(mkBtn("Povolit oznámení","gold",enablePush));
+      bt.textContent="Každou hodinu ti přijde věta přímo do telefonu.";bb.textContent="Povolit oznámení";bb.onclick=enablePush;banner.hidden=false;
+    }
+  }
+
+  /* sheet s povolením: jen v nainstalované aplikaci, jednou za den */
+  function showPerm(){$("#perm").classList.add("on")}
+  function hidePerm(){$("#perm").classList.remove("on")}
+  $("#permDo").addEventListener("click",enablePush);
+  $("#permLater").addEventListener("click",function(){hidePerm();store.push.snooze=Date.now()+86400000;save()});
+
+  /* ---------- hodinová věta, když je aplikace otevřená ---------- */
+  function fire(h){
+    var txt=lineNow(new Date());
+    toast(txt);chime();buzz([80,60,80,60,160]);
+    var o=$("#orb");o.classList.remove("ping");void o.offsetWidth;o.classList.add("ping");
+  }
+
+  /* ---------- TIMER ---------- */
+  var presets=[
+    {id:"cold",n:"Studená voda",s:120,h:"Nech studenou vodu téct na obličej a zápěstí. Dýchej pomalu a vydrž."},
+    {id:"breath",n:"Dech",s:60,h:"Nadechni se na čtyři doby, vydechni na šest. Nic jiného."},
+    {id:"move",n:"Pohyb",s:90,h:"Vstaň. Protáhni se, zatřes rukama, rozhýbej celé tělo."},
+    {id:"quiet",n:"Ticho",s:180,h:"Zavři oči. Nic nemusíš. Jen poslouchej."},
+    {id:"thanks",n:"Vděčnost",s:60,h:"Pojmenuj tři věci, které jsou právě teď dobře."},
+    {id:"light",n:"Světlo",s:120,h:"Jdi k oknu nebo ven. Nech světlo dopadnout na obličej."}
+  ];
+  var T={p:presets[0],dur:120,left:120,run:false,end:0,iv:null};
+  var C=2*Math.PI*116;
+  function fmt(s){s=Math.max(0,Math.ceil(s));return Math.floor(s/60)+":"+pad(s%60)}
+  function renderTimer(){
+    $("#tTime").textContent=fmt(T.left);$("#tLab").textContent=T.p.n;$("#tHint").textContent=T.p.h;
+    $("#prog").style.strokeDashoffset=(C*(1-(T.dur?T.left/T.dur:0))).toFixed(2);
+    $("#tCustom").textContent="délka "+fmt(T.dur);
+    $("#tStart").textContent=T.run?"Pauza":(T.left<T.dur&&T.left>0?"Pokračovat":"Start");
+  }
+  function pick(p){
+    stopTimer();T.p=p;T.dur=p.s;T.left=p.s;$("#back").classList.remove("on");
+    $$("#chips .chip").forEach(function(c){c.setAttribute("aria-pressed",c.dataset.id===p.id?"true":"false")});
+    renderTimer();
+  }
+  presets.forEach(function(p){
+    var b=document.createElement("button");b.className="chip";b.textContent=p.n;b.dataset.id=p.id;b.setAttribute("aria-pressed",p.id==="cold"?"true":"false");
+    b.addEventListener("click",function(){pick(p)});$("#chips").appendChild(b);
+  });
+  function stopTimer(){T.run=false;clearInterval(T.iv);T.iv=null}
+  function tick(){
+    T.left=(T.end-Date.now())/1000;
+    if(T.left<=0){T.left=0;stopTimer();renderTimer();finish();return}
+    renderTimer();
+  }
+  function startTimer(){
+    audio();
+    if(T.run){stopTimer();renderTimer();return}
+    if(T.left<=0)T.left=T.dur;
+    $("#back").classList.remove("on");
+    T.run=true;T.end=Date.now()+T.left*1000;T.iv=setInterval(tick,200);buzz(25);renderTimer();
+  }
+  $("#tStart").addEventListener("click",startTimer);
+  $("#tReset").addEventListener("click",function(){stopTimer();T.left=T.dur;$("#back").classList.remove("on");renderTimer()});
+  function adj(d){stopTimer();T.dur=Math.max(30,Math.min(3600,T.dur+d));T.left=T.dur;$("#back").classList.remove("on");renderTimer()}
+  $("#tMinus").addEventListener("click",function(){adj(-30)});
+  $("#tPlus").addEventListener("click",function(){adj(30)});
+  function playBack(){
+    chime();
+    setTimeout(function(){
+      if(!speak("Jsi zpátky. Tady a teď. Tohle je tvůj život, a právě ho žiješ. Nadechni se, a pokračuj."))toast("Jsi zpátky. Tady a teď.");
+    },900);
+  }
+  function finish(){
+    $("#back").classList.add("on");buzz([200,100,200,100,400]);playBack();
+    if(document.hidden&&swReg&&swReg.showNotification&&"Notification" in window&&Notification.permission==="granted"){
+      try{swReg.showNotification("Jsi zpátky. Tady a teď.",{body:"Časovač doběhl.",icon:"icons/icon-192.png",tag:"lyg-timer"})}catch(e){}
+    }
+  }
+  $("#playBack").addEventListener("click",function(){audio();playBack()});
+  $("#doneBack").addEventListener("click",function(){$("#back").classList.remove("on");stopSpeak();go("now")});
+  renderTimer();
+
+  /* ---------- NAHRÁVKY ---------- */
+  var sessions={
+    calm:{eyebrow:"🌙 Uklidnit se",steps:[
+      ["Zastav se. Nikam nemusíš spěchat.",2500],
+      ["Posaď se pohodlně a nech ramena klesnout.",3000],
+      ["Nadechni se nosem, pomalu, na čtyři doby.",4500],
+      ["A dlouze vydechni ústy, na šest dob.",6500],
+      ["Znovu. Nádech.",4000],
+      ["A výdech. Pomalu, až do konce.",6500],
+      ["Všimni si těla. Čelist, ramena, břicho. Zkus je uvolnit.",5000],
+      ["Ať je v hlavě cokoli, nemusíš to řešit právě teď.",4500],
+      ["Teď existuje jen tenhle dech.",4500],
+      ["Nádech.",4000],
+      ["Výdech.",6500],
+      ["Řekni si v duchu: zvládnu to, krok za krokem.",4500],
+      ["Nádech. A výdech.",7000],
+      ["Až budeš chtít, otevři oči a vrať se. Jsi v pořádku.",2500]
+    ]},
+    energy:{eyebrow:"⚡ Povzbudit se",steps:[
+      ["Vstaň. Hned teď.",1500],
+      ["Tři silné nádechy. Nádech nosem, výdech ústy.",4000],
+      ["Nádech, výdech. Nádech, výdech. Nádech, výdech.",3500],
+      ["Zatni pěsti. Zatni celé tělo. Tři, dva, jedna, a pusť.",4500],
+      ["Zatřes rukama a nohama. Probuď každý sval.",6000],
+      ["Deset dřepů. Jedeš. Raz, dva, tři, čtyři, pět, šest, sedm, osm, devět, deset.",6000],
+      ["Narovnej záda. Brada nahoru. Hrudník otevřený.",3500],
+      ["Řekni nahlas: tohle je můj den. Já ho řídím.",4000],
+      ["Vyber jednu věc, kterou uděláš hned po téhle nahrávce.",5000],
+      ["Jdi do toho.",1500]
+    ]}
+  };
+  var S={on:false,key:null,i:0,tok:0,t1:null,t2:null,amb:null};
+  function ambientStart(kind){
+    var c=audio();if(!c)return null;
+    var master=c.createGain();master.gain.value=0.0001;master.connect(c.destination);
+    master.gain.exponentialRampToValueAtTime(kind==="calm"?0.07:0.16,c.currentTime+3);
+    var nodes=[],iv=null;
+    if(kind==="calm"){
+      [130.81,196.0,261.63,329.63].forEach(function(f,i){
+        var o=c.createOscillator();o.type="sine";o.frequency.value=f;o.detune.value=(i-1.5)*5;
+        var g=c.createGain();g.gain.value=i===0?0.5:0.28;o.connect(g);g.connect(master);o.start();nodes.push(o);
+      });
+      var lfo=c.createOscillator(),lg=c.createGain();lfo.frequency.value=0.1;lg.gain.value=0.03;lfo.connect(lg);lg.connect(master.gain);lfo.start();nodes.push(lfo);
+    }else{
+      var beat=function(){
+        var t=c.currentTime,o=c.createOscillator(),g=c.createGain();
+        o.type="sine";o.frequency.setValueAtTime(110,t);o.frequency.exponentialRampToValueAtTime(42,t+0.22);
+        g.gain.setValueAtTime(0.9,t);g.gain.exponentialRampToValueAtTime(0.001,t+0.3);
+        o.connect(g);g.connect(master);o.start(t);o.stop(t+0.32);
+      };
+      beat();iv=setInterval(beat,600);
+    }
+    return {stop:function(){
+      try{master.gain.cancelScheduledValues(c.currentTime);master.gain.setTargetAtTime(0.0001,c.currentTime,0.4)}catch(e){}
+      clearInterval(iv);
+      setTimeout(function(){nodes.forEach(function(n){try{n.stop()}catch(e){}});try{master.disconnect()}catch(e){}},1800);
+    }};
+  }
+  function openSession(key){
+    audio();closeSession();
+    S.on=true;S.key=key;S.i=0;
+    $("#overlay").className="overlay on "+key;
+    $("#sEyebrow").textContent=sessions[key].eyebrow;
+    S.amb=ambientStart(key);chime();runStep();
+  }
+  function runStep(){
+    clearTimeout(S.t1);clearTimeout(S.t2);
+    if(!S.on)return;
+    var steps=sessions[S.key].steps;
+    if(S.i>=steps.length){finishSession();return}
+    var st=steps[S.i];
+    $("#sLine").textContent=st[0];
+    $("#sBar").style.width=Math.round(S.i/steps.length*100)+"%";
+    var tok=++S.tok,done=false;
+    function next(){
+      if(done||tok!==S.tok||!S.on)return;done=true;
+      clearTimeout(S.t2);
+      S.t1=setTimeout(function(){S.i++;runStep()},st[1]);
+    }
+    var est=900+st[0].length*75;
+    if(speak(st[0],next)){S.t2=setTimeout(next,est*2.2+2000)}else{S.t2=setTimeout(next,est)}
+  }
+  function finishSession(){
+    $("#sBar").style.width="100%";
+    $("#sLine").textContent="Jsi zpátky. Tady a teď.";
+    chime();buzz([200,100,300]);
+    if(S.amb){S.amb.stop();S.amb=null}
+    S.on=false;
+    setTimeout(function(){if(!S.on)$("#overlay").classList.remove("on")},3800);
+  }
+  function closeSession(){
+    S.on=false;S.tok++;clearTimeout(S.t1);clearTimeout(S.t2);stopSpeak();
+    if(S.amb){S.amb.stop();S.amb=null}
+    $("#overlay").classList.remove("on");
+  }
+  $("#sCalm").addEventListener("click",function(){openSession("calm")});
+  $("#sEnergy").addEventListener("click",function(){openSession("energy")});
+  $("#sClose").addEventListener("click",closeSession);
+
+  /* ---------- MEMENTO ---------- */
+  var titles=[
+    "Počkej. Proč právě teď skroluješ?",
+    "Tohle není zkouška. Tohle je ten život.",
+    "Říkáš si „později“. Ale později ti taky ubývá.",
+    "Za deset let budeš chtít tenhle den zpátky.",
+    "Tvůj čas teče, i když se díváš do telefonu.",
+    "Co z tohohle dne zůstane, až zhasneš displej?"
+  ];
+  $("#mmTitle").textContent=titles[dayOfYear(new Date())%titles.length];
+  var dots=$("#dayDots");for(var i=0;i<16;i++){dots.appendChild(document.createElement("i"))}
+  function renderDay(now){
+    var f=now.getHours()+now.getMinutes()/60;
+    var left=Math.max(0,23-Math.max(7,f));if(f<7)left=16;
+    var hh=Math.floor(left),mm=Math.floor((left-hh)*60);
+    $("#leftToday").textContent=hh+" h "+pad(mm)+" min";
+    $("#leftSub").textContent=f<7?"bdělého času dnes, den teprve začíná":(f>=23?"Den končí. Poděkuj mu.":"bdělého času do 23:00");
+    var cur=Math.floor(f)-7;
+    $$("#dayDots i").forEach(function(d,idx){d.className=f<7?"fut":(idx<cur?"past":(idx===cur&&f<23?"cur":"fut"))});
+  }
+  var WEEKS=90*52;
+  function weeksLived(by){var born=new Date(by,0,1).getTime();return Math.max(0,Math.min(WEEKS,Math.floor((Date.now()-born)/(7*86400000))))}
+  function nf(n){return Math.round(n).toLocaleString("cs-CZ")}
+  function drawWeeks(){
+    var cv=$("#weeks"),by=store.birth;
+    if(!by){cv.hidden=true;$("#nums").hidden=true;return}
+    cv.hidden=false;$("#nums").hidden=false;
+    var w=cv.parentNode.clientWidth-40;if(w<100)w=300;
+    var dpr=window.devicePixelRatio||1,cols=52,rows=90,cell=w/cols,h=cell*rows;
+    cv.style.width=w+"px";cv.style.height=h+"px";cv.width=w*dpr;cv.height=h*dpr;
+    var g=cv.getContext("2d");g.setTransform(dpr,0,0,dpr,0,0);g.clearRect(0,0,w,h);
+    var lived=weeksLived(by),r=cell*0.34;
+    for(var k=0;k<WEEKS;k++){
+      var x=(k%cols)*cell+cell/2,y=Math.floor(k/cols)*cell+cell/2;
+      g.beginPath();g.arc(x,y,r,0,6.2832);
+      if(k<lived){g.fillStyle="rgba(255,226,190,.22)"}
+      else if(k===lived){g.fillStyle="#ffc46b";g.shadowColor="#ffa040";g.shadowBlur=14}
+      else{g.fillStyle="rgba(255,236,210,.62)"}
+      g.fill();g.shadowBlur=0;
+    }
+    $("#yearK").textContent="Tvůj život v týdnech";
+    $("#weeksText").textContent="Žiješ svůj "+nf(lived+1)+". týden z 90 let. Žlutý bod je tenhle týden. Právě teď.";
+  }
+  var cuRaf=0;
+  function countUp(){
+    if(!store.birth)return;
+    var left=Math.max(0,WEEKS-weeksLived(store.birth)-1),t0=performance.now(),dur=1400;
+    cancelAnimationFrame(cuRaf);
+    (function step(t){
+      var p=Math.min(1,(t-t0)/dur),e=1-Math.pow(1-p,3);
+      $("#nWeekends").textContent=nf(left*e);$("#nDays").textContent=nf(left*7*e);
+      if(p<1)cuRaf=requestAnimationFrame(step);
+    })(t0);
+  }
+  $("#birthOk").addEventListener("click",function(){
+    var v=parseInt($("#birth").value,10),y=new Date().getFullYear();
+    if(!(v>=1920&&v<=y)){toast("Zadej rok narození, např. 1990");return}
+    store.birth=v;save();drawWeeks();countUp();buzz(40);
+  });
+  if(store.birth){$("#birth").value=store.birth}
+  $("#mmGo").addEventListener("click",function(){go("timer");setTimeout(startTimer,350)});
+  window.addEventListener("resize",function(){if($("#p-memento").classList.contains("on"))drawWeeks()});
+
+  /* ---------- průvodce instalací ---------- */
+  var deferred=null;
+  var SHARE='<svg viewBox="0 0 24 24"><path d="M12 15V3M8 7l4-4 4 4M6 11H5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1h-1"/></svg>';
+  var PLUS='<svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M12 8v8M8 12h8"/></svg>';
+  var DOTS='<svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="12" cy="19" r="1.2"/></svg>';
+  function steps(list){return '<ol class="steps">'+list.map(function(s){return "<li><span>"+s+"</span></li>"}).join("")+"</ol>"}
+  function buildInstall(){
+    var body="",doBtn=$("#insDo");
+    doBtn.hidden=true;
+    if(isIOS){
+      $("#insTitle").textContent="Přidej si aplikaci na plochu iPhonu";
+      body=iosNotSafari?steps(["Otevři tuhle stránku v prohlížeči <b>Safari</b>. V tomhle prohlížeči to na iPhonu nejde.","Klepni na "+SHARE+"<b>Sdílet</b>","Vyber "+PLUS+"<b>Přidat na plochu</b>","Potvrď <b>Přidat</b> a otevři aplikaci z plochy"]):
+        steps(["Klepni dole na "+SHARE+"<b>Sdílet</b> (někdy je pod "+DOTS+")","Posuň nabídku a vyber "+PLUS+"<b>Přidat na plochu</b>","Potvrď <b>Přidat</b>","Otevři aplikaci z plochy a povol oznámení"]);
+    }else if(isAndroid){
+      $("#insTitle").textContent="Přidej si aplikaci na plochu telefonu";
+      if(deferred){body='<p class="lead" style="margin-bottom:14px">Stačí jedno klepnutí. Aplikace pak půjde otevřít z plochy i bez internetu.</p>';doBtn.hidden=false}
+      else body=steps(["Klepni na "+DOTS+"<b>menu</b> v prohlížeči","Vyber <b>Nainstalovat aplikaci</b> nebo <b>Přidat na plochu</b>","Potvrď. Ikona se objeví na ploše."]);
+    }else{
+      $("#insTitle").textContent="Nainstaluj si aplikaci do počítače";
+      if(deferred){body='<p class="lead" style="margin-bottom:14px">Stačí jedno klepnutí. Aplikace pak poběží ve vlastním okně i bez internetu.</p>';doBtn.hidden=false}
+      else body=steps(["V adresním řádku Chromu nebo Edge klikni na ikonu <b>Nainstalovat</b>","V Safari na Macu zvol <b>Sdílet</b> a <b>Přidat do Docku</b>"]);
+    }
+    $("#insBody").innerHTML=body;
+  }
+  function showInstall(force){
+    if(!force&&(isStandalone()||store.ins.never||store.ins.installed))return;
+    hidePerm();buildInstall();$("#install").classList.add("on");
+  }
+  function hideInstall(){$("#install").classList.remove("on")}
+  window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();deferred=e;if($("#install").classList.contains("on"))buildInstall()});
+  window.addEventListener("appinstalled",function(){store.ins.installed=true;save();hideInstall();deferred=null;toast("Nainstalováno. Najdeš ji na ploše.")});
+  $("#insDo").addEventListener("click",function(){
+    if(!deferred)return;
+    deferred.prompt();
+    deferred.userChoice.then(function(c){deferred=null;if(c&&c.outcome==="accepted"){store.ins.installed=true;save()}hideInstall()}).catch(hideInstall);
+  });
+  function snoozeInstall(){hideInstall();store.ins.snooze=Date.now()+3*86400000;save()}
+  $("#insX").addEventListener("click",snoozeInstall);
+  $("#insLater").addEventListener("click",snoozeInstall);
+  $("#insNever").addEventListener("click",function(){hideInstall();store.ins.never=true;save();toast("Dobře, už se nezobrazí.")});
+  $("#showInstall").addEventListener("click",function(){showInstall(true)});
+
+  var standalone=isStandalone();
+  if(standalone&&!store.ins.installed){store.ins.installed=true;save()}
+  if(!standalone&&!store.ins.never&&!store.ins.installed&&store.ins.n<3&&Date.now()>store.ins.snooze){
+    setTimeout(function(){store.ins.n++;save();showInstall()},2600);
+  }
+
+  /* ---------- service worker: offline + push ---------- */
+  var hadController=!!(navigator.serviceWorker&&navigator.serviceWorker.controller);
+  if("serviceWorker" in navigator&&/^https?:$/.test(location.protocol)){
+    var boot=function(){
+      navigator.serviceWorker.register("sw.js").catch(function(){});
+      navigator.serviceWorker.ready.then(function(r){
+        swReg=r;
+        if(store.push.on&&Notification.permission==="granted"){
+          r.pushManager.getSubscription().then(function(s){if(s)return syncSub(s)}).catch(function(){});
+        }
+      }).catch(function(){});
+    };
+    if(document.readyState==="complete")boot();else window.addEventListener("load",boot);
+    navigator.serviceWorker.addEventListener("controllerchange",function(){if(hadController)toast("Je tu nová verze. Příště se načte sama.",6000);hadController=true});
+  }
+  window.addEventListener("offline",function(){toast("Jsi offline. Vše funguje dál.",4200)});
+  window.addEventListener("online",function(){toast("Zpátky online.",2600)});
+
+  /* po instalaci: nabídni povolení oznámení */
+  if(standalone&&pushSupport()==="ok"&&Notification.permission==="default"&&Date.now()>store.push.snooze){
+    setTimeout(showPerm,1800);
+  }
+
+  if(/[?&]go=(calm|energy)/.test(location.search)){setTimeout(function(){go("timer")},50)}
+
+  /* ---------- hodiny ---------- */
+  var lastFired="";
+  function loop(){
+    var n=new Date();
+    $("#clock").textContent=pad(n.getHours())+":"+pad(n.getMinutes());
+    $("#date").textContent=DAYS[n.getDay()]+" "+n.getDate()+". "+MONTHS[n.getMonth()];
+    renderMantra();renderDay(n);markNow();
+    if($("#p-memento").classList.contains("on"))$("#mmSec").textContent=Math.max(0,Math.floor((Date.now()-mmStart)/1000));
+    var key=n.getFullYear()+"-"+n.getMonth()+"-"+n.getDate()+"-"+n.getHours();
+    if(n.getMinutes()===0&&key!==lastFired){lastFired=key;if(hourCfg(n.getHours()).on&&!document.hidden)fire(n.getHours())}
+  }
+  buildHours();renderPush();loop();setInterval(loop,1000);
+  if("speechSynthesis" in window){try{window.speechSynthesis.getVoices()}catch(e){}}
+})();
 </script>
-
 </body>
 </html>
